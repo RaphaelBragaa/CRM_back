@@ -1,9 +1,7 @@
-const User = require('../models/user.model')
+const User = require('../models/user.model.js')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-
 require('dotenv').config()
-
 
 //----------------------------Registro de usuário--------------------------
 exports.register = async (req, res) => {
@@ -12,10 +10,9 @@ exports.register = async (req, res) => {
         await 
         User.create({
             name: req.body.name,
-            cnpj: req.body.cnpj,
-            address: req.body.address,
             email: req.body.email,
-            password: newPassword
+            password: newPassword,
+            plan: req.body.plan
         })
         return res.sendStatus(201)
     } catch (err) {
@@ -46,7 +43,7 @@ exports.login = async (req, res) => {
             },
             process.env.DATABASE_SECRET
         )
-
+         
         return res.send(token)
     } else {
         return res.sendStatus(401)
